@@ -9,7 +9,7 @@
  */
 
 /*global angular*/
-var readMore = angular.module('readMore', []);
+var readMore = angular.module('readMore', ['ngSanitize']);
 
 readMore.directive('readMore', function() {
     return {
@@ -18,16 +18,17 @@ readMore.directive('readMore', function() {
         scope: {
             text: '=ngModel'
         },
-        template:  "<p> {{text | readMoreFilter:[text, countingWords, textLength] }}" +
-        "<a ng-show='showLinks' ng-click='changeLength()' class='color3'>" +
-        "<strong ng-show='isExpanded'>  {{lessText}}</strong>" +
-        "<strong ng-show='!isExpanded'>  {{moreText}}</strong>" +
-        "</a>" +
-        "</p>",
+        template:  "<div>" +
+        "<span ng-show='showLinks' ng-click='changeLength()' class='color3'>" +
+        "<span ng-show='isExpanded' ng-bind-html='lessText'></span>" +
+        "<span ng-show='!isExpanded' ng-bind-html='moreText'></span>" +
+        "</span>" +
+        "<span ng-bind-html='text | readMoreFilter:[text, countingWords, textLength] | trustHtml'></span>" +
+        "</div>",
         controller: ['$scope', '$attrs', '$element',
             function($scope, $attrs) {
-                $scope.moreText = $attrs.moreText || 'ShowMore';
-                $scope.lessText = $attrs.lessText || 'ShowLess';
+                $scope.moreText = $attrs.moreText;
+                $scope.lessText = $attrs.lessText;
                 $scope.textLength = $attrs.length;
                 $scope.isExpanded = false; // initialise extended status
                 $scope.countingWords = $attrs.words !== undefined ? ($attrs.words === 'true') : true; //if this attr is not defined the we are counting words not characters
