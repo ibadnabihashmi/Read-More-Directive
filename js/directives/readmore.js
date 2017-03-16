@@ -19,13 +19,15 @@ readMore.directive('readMore', function() {
             text: '=ngModel'
         },
         template:  "<p> {{text | readMoreFilter:[text, countingWords, textLength] }}" +
-            "<a ng-show='showLinks' ng-click='changeLength()' class='color3'>" +
-            "<strong ng-show='isExpanded'>  Show Less</strong>" +
-            "<strong ng-show='!isExpanded'>  Show More</strong>" +
-            "</a>" +
-            "</p>",
+        "<a ng-show='showLinks' ng-click='changeLength()' class='color3'>" +
+        "<strong ng-show='isExpanded'>  {{moreText}}</strong>" +
+        "<strong ng-show='!isExpanded'>  {{lessText}}</strong>" +
+        "</a>" +
+        "</p>",
         controller: ['$scope', '$attrs', '$element',
             function($scope, $attrs) {
+                $scope.moreText = $attrs.moreText || 'ShowMore';
+                $scope.lessText = $attrs.lessText || 'ShowLess';
                 $scope.textLength = $attrs.length;
                 $scope.isExpanded = false; // initialise extended status
                 $scope.countingWords = $attrs.words !== undefined ? ($attrs.words === 'true') : true; //if this attr is not defined the we are counting words not characters
