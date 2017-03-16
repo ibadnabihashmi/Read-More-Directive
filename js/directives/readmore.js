@@ -20,8 +20,8 @@ readMore.directive('readMore', function() {
         },
         template:  "<p> {{text | readMoreFilter:[text, countingWords, textLength] }}" +
         "<a ng-show='showLinks' ng-click='changeLength()' class='color3'>" +
-        "<strong ng-show='isExpanded'>  {{moreText}}</strong>" +
-        "<strong ng-show='!isExpanded'>  {{lessText}}</strong>" +
+        "<strong ng-show='isExpanded'>  {{lessText}}</strong>" +
+        "<strong ng-show='!isExpanded'>  {{moreText}}</strong>" +
         "</a>" +
         "</p>",
         controller: ['$scope', '$attrs', '$element',
